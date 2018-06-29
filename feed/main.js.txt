@@ -1,0 +1,11 @@
+
+
+
+const request = require('request');
+
+
+request.post('https://elastic:gekXRTp298SXqbGh9FWPWDjR@671f7bdb7db040398cd688845876f53f.europe-west1.gcp.cloud.es.io:9243/hypersnapshots/1',
+  {
+    id: 1,
+	number: 2
+  });
