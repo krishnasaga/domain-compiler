@@ -1,0 +1,11 @@
+{
+  "name": "feed",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "dummy-json": "^2.0.0",
+    "elasticsearch": "^15.0.0",
+    "request": "^2.87.0"
+  }
+}
