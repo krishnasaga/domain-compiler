@@ -50,11 +50,11 @@ const hypersnapshotTemplate = `
 `;
 
 
-Array.from(Array(100).keys()).forEach((key) => {
+['flight_options','flight_options-2-flights','flight_options-1-flight','flight_options-30-flights'].forEach((key) => {
 
   const query = JSON.parse(dummyjson.parse(hypersnapshotTemplate,{ 
    helpers: { randomInt: dummyjson.utils.randomInt, randomFloat: dummyjson.utils.randomFloat }}));
-   const body = Object.assign({},query.body,{timeStamp: new Date(new Date().getTime() + key*1000 ).toISOString()});
+   const body = Object.assign({},query.body,{timeStamp: 1,page: key ).toISOString()});
    
    client.create(Object.assign({},query,{ body }));
   
