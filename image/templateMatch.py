@@ -3,14 +3,17 @@ import cv2
 import matplotlib.pyplot as plt
 import json
 import math
+import sys
 
+requiredJson=[]
 def templatematch(snapshot,features):
-	requiredJson=[]
-	page={'page':'flight_options'}
+	page={'page': features[0]['page']}
 	featureMatches={'count':2}
+	i=0
 	featuresdata=[]
+	
+	img_rgb = cv2.imread(snapshot)
 	for x in features:
-		img_rgb = cv2.imread(snapshot)
 		img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 		template = cv2.imread(x['feature-image'],0)
 		w, h = template.shape[::-1]
@@ -22,28 +25,55 @@ def templatematch(snapshot,features):
 		if max_val >= threshold:
 			data = {}
 			data['name'] = x['feature']
-			
-			data['match']=max_val
+			data['match'] = max_val
 			featuresdata.append(data)
-			
 		
 		for pt in zip(*loc[::-1]):
 			cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
-			cv2.imwrite('res.png',img_rgb)
-			
+			cv2.imwrite('results/'+x['page']+'.png',img_rgb)
 			
 	featureMatches['features']=featuresdata
+	featureMatches['count']=len(featuresdata)
 	page['featureMatches']=featureMatches
 	requiredJson.append(page)
-	json_data = json.dumps(requiredJson)
-	f = open('./file.txt','w')
-	f.write(json_data)
-	f.close()
 
 
-features1 = [{'feature':'price-panel', 'feature-image':"./f1.jpg"},
-			{'feature':'summary-panel','feature-image':"./f2.jpg"},
-            {'feature': 'gallery' , 'feature-image': "./template6.png"}]
-templatematch('desk.jpg',features1)	
+features1 =[
+	{'page': 'flightOptions', 'feature':'hub-spoke', 'feature-image':'./templates/flightOptions/hubNspoke.png'},
+	{'page': 'flightOptions', 'feature':'flight-card', 'feature-image':'./templates/flightOptions/flightCard.png'},
+	{'page': 'flightOptions', 'feature':'alternate-flights', 'feature-image':'./templates/flightOptions/altFlights.png'},
+	{'page': 'flightOptions', 'feature':'standard-seats', 'feature-image':'./templates/flightOptions/standardSeats.png'},
+	{'page': 'flightOptions', 'feature':'selectyour-seats', 'feature-image':'./templates/flightOptions/selectyourSeats.png'},
+	{'page': 'flightOptions', 'feature':'extraLeg-seats', 'feature-image':'./templates/flightOptions/extraLegSeats.png'},
+	{'page': 'flightOptions', 'feature':'luggage', 'feature-image':'./templates/flightOptions/luggage.png'},
+	{'page': 'flightOptions', 'feature':'special-assistance', 'feature-image':'./templates/flightOptions/specialAssistance.png'}
+]
+
+features2 =[
+    {'page':'extraOptions', 'feature':'hub-spoke', 'feature-image':'./templates/extraOptions/hubNspoke.png'},
+    {'page':'extraOptions', 'feature':'tfc', 'feature-image':'./templates/extraOptions/tuiCareFoundation.png'},
+    {'page':'extraOptions', 'feature':'airport-parking', 'feature-image':'./templates/extraOptions/airportParking.png'},
+    {'page':'extraOptions', 'feature':'airportHotel-parking', 'feature-image':'./templates/extraOptions/airportHotelParking.png'}
+]
 
 
+def main(argv):
+  if len(argv) == 1 :
+    print('No input provided')
+  else : 
+    for arg in argv[1:]:
+        pageName = arg.split('=')[0]
+        screenshot = arg.split('=')[1]
+        if pageName == 'flightOption':
+            print(pageName+' - Matching template...')
+            templatematch(screenshot,features1)
+        if pageName == 'extraOptions':
+            print(pageName+' - Matching template...')
+            templatematch(screenshot,features2)
+    json_data = json.dumps(requiredJson)
+    f = open('hyperSnapshot.txt','w+')
+    f.write(json_data)
+    f.close()
+
+		
+main(sys.argv)
