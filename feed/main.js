@@ -9,7 +9,7 @@ var client = new elasticsearch.Client({
 
 const hypersnapshotTemplate = `
   {
-   "index": "vison",
+   "index": "compiler-vision",
    "type": "hypersnapshot",
    "id": {{randomInt 2000 4000}},
    "body": {
@@ -54,8 +54,7 @@ const hypersnapshotTemplate = `
 
   const query = JSON.parse(dummyjson.parse(hypersnapshotTemplate,{ 
    helpers: { randomInt: dummyjson.utils.randomInt, randomFloat: dummyjson.utils.randomFloat }}));
-   const body = Object.assign({},query.body,{timeStamp: 1,page: key ).toISOString()});
-   
+   const body = Object.assign({},query.body,{timeStamp: process.argv[3],page: key, codeHead: process.argv[2]} ); 
    client.create(Object.assign({},query,{ body }));
   
 });
