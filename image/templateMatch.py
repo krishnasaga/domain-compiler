@@ -5,7 +5,7 @@ import json
 import math
 import sys
 import os, os.path
-
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 requiredJson=[]
 def templatematch(snapshot,features):
@@ -13,6 +13,7 @@ def templatematch(snapshot,features):
     featureMatches={'count':2}
     i=0
     featuresdata=[]
+    img_rgb=0
 	
     if(os.path.isfile(snapshot)):
         img_rgb = cv2.imread(snapshot)
@@ -22,8 +23,7 @@ def templatematch(snapshot,features):
         return
 
     for x in features:
-
-        if os.path.isfile(x['feature-image']):
+        if os.path.isfile(dir_path + "/" + x['feature-image']):
             template = cv2.imread(x['feature-image'],0)
             w, h = template.shape[::-1]
         else:
@@ -40,10 +40,13 @@ def templatematch(snapshot,features):
             data['name'] = x['feature']
             data['match'] = max_val
             featuresdata.append(data)
-            
+        
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        print('\t'+x['page']+' : '+x['feature'])
         for pt in zip(*loc[::-1]):
             cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
-            cv2.imwrite('results/'+x['page']+'.png',img_rgb)
+            cv2.putText(img_rgb,'OpenCV',(10,500), font, 4,(255,255,255),2,cv2.LINE_AA)
+            cv2.imwrite('results/'+snapshot.split('/')[1]+'.png',img_rgb)
 			
     featureMatches['features']=featuresdata
     featureMatches['count']=len(featuresdata)
@@ -52,17 +55,17 @@ def templatematch(snapshot,features):
 
 
 features =[
-	{'page': 'flightOptions', 'feature':'hub-spoke', 'feature-image':'./templates/flightOptions/hubNspoke.png'},
-	{'page': 'flightOptions', 'feature':'flight-card', 'feature-image':'./templates/flightOptions/flightCard.png'},
-	{'page': 'flightOptions', 'feature':'alternate-flights', 'feature-image':'./templates/flightOptions/altFlights.png'},
-	{'page': 'flightOptions', 'feature':'selectyour-seats', 'feature-image':'./templates/flightOptions/selectyourSeats.png'},
-	{'page': 'flightOptions', 'feature':'special-assistance', 'feature-image':'./templates/flightOptions/specialAssistance.png'}
+	{'page': 'flightOptions', 'feature':'hub-spoke', 'feature-image':'templates/flightOptions/hubNspoke.png'},
+	{'page': 'flightOptions', 'feature':'flight-card', 'feature-image':'templates/flightOptions/flightCard.png'},
+	{'page': 'flightOptions', 'feature':'alternate-flights', 'feature-image':'templates/flightOptions/altFlights.png'},
+	{'page': 'flightOptions', 'feature':'selectyour-seats', 'feature-image':'templates/flightOptions/luggage.png'},
+	{'page': 'flightOptions', 'feature':'special-assistance', 'feature-image':'templates/flightOptions/specialAssistance.png'}
 ]
 
 
 def templateMapper(screenshot):
     if(os.path.isfile(screenshot)):
-        print('Matching template...')
+        print('\nMatching template...')
         templatematch(screenshot,features)
     else:
 	    print('Screenshot not found!!')	
@@ -75,9 +78,8 @@ def main(args):
         snapshotDir = args[1]
         for root, dirs, files in os.walk(snapshotDir):  
             for filename in files:
-                print("Commit head : "+args[2])
-                print("Build time : "+args[3])
-                templateMapper(snapshotDir+'/'+filename)
+                #print(snapshotDir)
+                templateMapper(snapshotDir+filename)
     json_data = json.dumps(requiredJson)
     f = open('hyperSnapshot.txt','w+')
     f.write(json_data)
