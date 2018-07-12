@@ -1,8 +1,11 @@
 import numpy as np
-import cv2
+import cv2 
+import matplotlib as plt
 import json
 import math
 import sys
+import os.path
+
 
 requiredJson=[]
 def templatematch(snapshot,features):
@@ -11,12 +14,21 @@ def templatematch(snapshot,features):
 	i=0
 	featuresdata=[]
 	
-	img_rgb = cv2.imread(snapshot)
 	for x in features:
-		img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-		template = cv2.imread(x['feature-image'],0)
-		w, h = template.shape[::-1]
-
+		if(os.path.isfile(snapshot)):
+		  img_rgb = cv2.imread(snapshot)
+		  img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+		else:
+		  print('\033[91m' + 'Screenshot not found!' + '\x1b[0m')
+		  return
+		  
+		if os.path.isfile(x['feature-image']):
+			template = cv2.imread(x['feature-image'],0)
+			w, h = template.shape[::-1]
+		else:
+			print('\033[91m' + 'Template not found!' + '\x1b[0m')
+			return
+		
 		res = cv2.matchTemplate(img_gray,template,cv2.TM_CCOEFF_NORMED)
 		min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res);
 		threshold = 0.8
