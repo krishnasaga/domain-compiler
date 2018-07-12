@@ -14,6 +14,11 @@ def templatematch(snapshot,features):
     i=0
     featuresdata=[]
     img_rgb=0
+    font                   = cv2.FONT_HERSHEY_SIMPLEX
+    bottomLeftCornerOfText = (10,500)
+    fontScale              = 1
+    fontColor              = (255,255,255)
+    lineType               = 2
 	
     if(os.path.isfile(snapshot)):
         img_rgb = cv2.imread(snapshot)
@@ -45,7 +50,7 @@ def templatematch(snapshot,features):
         print('\t'+x['page']+' : '+x['feature'])
         for pt in zip(*loc[::-1]):
             cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
-            cv2.putText(img_rgb,'OpenCV',(10,500), font, 4,(255,255,255),2,cv2.LINE_AA)
+            cv2.putText(img_rgb,"Hello World!!!", (0,0), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
             cv2.imwrite('results/'+snapshot.split('/')[1]+'.png',img_rgb)
 			
     featureMatches['features']=featuresdata
@@ -78,8 +83,7 @@ def main(args):
         snapshotDir = args[1]
         for root, dirs, files in os.walk(snapshotDir):  
             for filename in files:
-                #print(snapshotDir)
-                templateMapper(snapshotDir+filename)
+                templateMapper(snapshotDir+'/'+filename)
     json_data = json.dumps(requiredJson)
     f = open('hyperSnapshot.txt','w+')
     f.write(json_data)
