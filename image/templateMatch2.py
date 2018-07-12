@@ -3,6 +3,11 @@ import cv2
 import json
 import math
 import sys
+import os
+
+commitHead = sys.argv[2]
+builldTime = sys.argv[3]
+
 
 requiredJson=[]
 def templatematch(snapshot,features):
@@ -52,27 +57,14 @@ features2 =[
     {'page':'extraOptions', 'feature':'hub-spoke', 'feature-image':'./templates/extraOptions/hubNspoke.png'},
     {'page':'extraOptions', 'feature':'tfc', 'feature-image':'./templates/extraOptions/tuiCareFoundation.png'},
     {'page':'extraOptions', 'feature':'airport-parking', 'feature-image':'./templates/extraOptions/airportParking.png'},
-    {'page':'extraOptions', 'feature':'airportHotel-parking', 'feature-image':'./templates/extraOptions/airportHotelParking.png'}
-]
+    {'page':'extraOptions', 'feature':'airportHotel-parking', 'feature-image':'./templates/extraOptions/airportHotelParking.png'}]
+
+snapshotDir = sys.argv[1];
 
 
-def main(argv):
-  if len(argv) == 1 :
-    print('No input provided')
-  else : 
-    for arg in argv[1:]:
-        pageName = arg.split('=')[0]
-        screenshot = arg.split('=')[1]
-        if pageName == 'flightOption':
-            print(pageName+' - Matching template...')
-            templatematch(screenshot,features1)
-        if pageName == 'extraOptions':
-            print(pageName+' - Matching template...')
-            templatematch(screenshot,features2)
-    json_data = json.dumps(requiredJson)
-    f = open('hyperSnapshot.txt','w+')
-    f.write(json_data)
-    f.close()
 
-		
-main(sys.argv)
+for root, dirs, files in os.walk(snapshotDir):  
+    for filename in files:
+     print(snapshotDir + "/" + filename)
+
+
