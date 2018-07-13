@@ -56,7 +56,7 @@ def templatematch(snapshot,features):
         print('\t'+x['page']+' : '+x['feature'])
         for pt in zip(*loc[::-1]):
             cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
-            cv2.putText(img_rgb, data['name'] ,(pt[0] + int(round(w/2)) ,pt[1] - 20 ) , cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0))
+            cv2.putText(img_rgb, data['name'] ,(pt[0] + int(round(w/2)) ,pt[1] - 20 ) , cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0))
             
             cv2.imwrite('results/'+snapshot.split('/')[-1]+'.png',img_rgb)
            
@@ -75,8 +75,8 @@ features =[
 	{'page': 'flightOptions', 'feature':'selected', 'feature-image':'templates/flightOptions/selected.png'},
 	{'page': 'flightOptions', 'feature':'gallery', 'feature-image':'templates/flightOptions/imageGallery.png'},
 	{'page': 'flightOptions', 'feature':'room-option', 'feature-image':'templates/flightOptions/roomOption.png'},
-	{'page': 'flightOptions', 'feature':'button', 'feature-image':'templates/flightOptions/button.png'},
-	{'page': 'flightOptions', 'feature':'dateSelection', 'feature-image':'templates/flightOptions/dateSelection.png'}
+	{'page': 'flightOptions', 'feature':'select-button', 'feature-image':'templates/flightOptions/button.png'},
+	{'page': 'flightOptions', 'feature':'date-selection', 'feature-image':'templates/flightOptions/dateSelection.png'}
 ]
 
 
