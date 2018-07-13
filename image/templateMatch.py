@@ -56,7 +56,7 @@ def templatematch(snapshot,features):
             cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
             #cv2.putText(img_rgb, data['name'] ,(pt[0] + round(w/2) ,pt[1] - 20 ) , cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), lineType=2)
           #  cv2.putText(img_rgb,data['name'], (pt[0],pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
-            cv2.imwrite('./results/'+snapshot.split('/')[1]+'.png',img_rgb)
+            cv2.imwrite('http://35.237.201.178:8080/job/compiler/75/console/results/'+snapshot.split('/')[1]+'.png',img_rgb)
 			
     featureMatches['features']=featuresdata
     featureMatches['count']=len(featuresdata)
