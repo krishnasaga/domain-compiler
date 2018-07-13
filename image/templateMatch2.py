@@ -11,7 +11,7 @@ builldTime = sys.argv[3]
 
 requiredJson=[]
 def templatematch(snapshot,features):
-	page={'page': snapshot.split('/')[-1].split('.')[-1]}
+	page={'page': snapshot.split('/')[-1].split('.')[0]}
 	featureMatches={'count':2}
 	i=0
 	featuresdata=[]

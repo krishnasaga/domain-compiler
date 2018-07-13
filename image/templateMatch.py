@@ -9,7 +9,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 requiredJson=[]
 def templatematch(snapshot,features):
-    page={'page': features[0]['page']}
+    page={'page': snapshot.split('/')[-1].split('.')[0]}
     featureMatches={'count':2}
     i=0
     featuresdata=[]
