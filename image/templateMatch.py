@@ -23,14 +23,17 @@ def templatematch(snapshot,features):
         return
 
     for x in features:
-        print(dir_path)
         if os.path.isfile(dir_path + "/" + x['feature-image']):
             template = cv2.imread(dir_path + "/" + x['feature-image'],0)
             w, h = template.shape[::-1]
         else:
             print('Template not found!')
             return
-		
+
+        if np.size(img_rgb, 0) < np.size(template, 0) and np.size(img_rgb, 1) < np.size(template, 1):
+            print('Screenshot is smaller than template')
+            return
+
         res = cv2.matchTemplate(img_gray,template,cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         threshold = 0.8
