@@ -54,7 +54,7 @@ def templatematch(snapshot,features):
         print('\t'+x['page']+' : '+x['feature'])
         for pt in zip(*loc[::-1]):
             cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
-            cv2.putText(img_rgb, data['name'] ,(pt[0] + round(w/2) ,pt[1] - 20 ) , cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 0), lineType=cv2.LINE_AA)
+            cv2.putText(img_rgb, data['name'] ,(pt[0] + round(w/2) ,pt[1] - 20 ) , cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 0), lineType=2)
             cv2.imwrite('results/'+snapshot.split('/')[1]+'.png',img_rgb)
 			
     featureMatches['features']=featuresdata
@@ -87,7 +87,6 @@ def main(args):
         snapshotDir = args[1]
         for root, dirs, files in os.walk(snapshotDir):  
             for filename in files:
-                print(snapshotDir)
                 templateMapper(snapshotDir+'/'+filename)
     json_data = json.dumps(requiredJson)
     f = open('hyperSnapshot.txt','w+')
