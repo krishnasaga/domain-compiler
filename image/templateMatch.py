@@ -30,12 +30,17 @@ def templatematch(snapshot,features):
             print('Template not found!')
             return
 
-        if (np.size(img_rgb, 0) < np.size(template, 0) and np.size(img_rgb, 1) < np.size(template, 1)):
+        if (img_rgb.shape[0] < template.shape[0] and img_rgb.shape[1] < template.shape[1]):
             print('Screenshot is smaller than template')
             return
-        print(snapshot)
-        print(template)
-        res = cv2.matchTemplate(img_gray,template,cv2.TM_CCOEFF_NORMED)
+
+        try:
+            res = cv2.matchTemplate(img_gray,template,cv2.TM_CCOEFF_NORMED)
+        except IOError:
+            print('\tIO error----')
+        else:
+            print ("\tCompared feature---")
+
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         threshold = 0.8
         loc = np.where( res >= threshold)
