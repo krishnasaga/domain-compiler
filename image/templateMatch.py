@@ -68,12 +68,15 @@ def templatematch(snapshot,features):
 
 features =[
 	{'page': 'flightOptions', 'feature':'hub-spoke', 'feature-image':'templates/flightOptions/hubNspoke.png'},
-	{'page': 'flightOptions', 'feature':'flight-card', 'feature-image':'templates/flightOptions/flightCard.png'},
+	{'page': 'flightOptions', 'feature':'selected-flight', 'feature-image':'templates/flightOptions/flightCard.png'},
 	{'page': 'flightOptions', 'feature':'alternate-flights', 'feature-image':'templates/flightOptions/altFlights.png'},
 	{'page': 'flightOptions', 'feature':'selectyour-seats', 'feature-image':'templates/flightOptions/luggage.png'},
 	{'page': 'flightOptions', 'feature':'special-assistance', 'feature-image':'templates/flightOptions/specialAssistance.png'},
 	{'page': 'flightOptions', 'feature':'selected', 'feature-image':'templates/flightOptions/selected.png'},
-	{'page': 'flightOptions', 'feature':'gallery', 'feature-image':'templates/flightOptions/imageGallery.png'}
+	{'page': 'flightOptions', 'feature':'gallery', 'feature-image':'templates/flightOptions/imageGallery.png'},
+	{'page': 'flightOptions', 'feature':'room-option', 'feature-image':'templates/flightOptions/roomOption.png'},
+	{'page': 'flightOptions', 'feature':'button', 'feature-image':'templates/flightOptions/button.png'},
+	{'page': 'flightOptions', 'feature':'dateSelection', 'feature-image':'templates/flightOptions/dateSelection.png'}
 ]
 
 
