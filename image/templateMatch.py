@@ -40,7 +40,9 @@ def templatematch(snapshot,features):
             print('\tIO error----')
         else:
             print ("\tCompared feature---")
-
+            
+        if not os.path.exists('results'):
+              os.makedirs('results')
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         threshold = 0.8
         loc = np.where( res >= threshold)
@@ -56,8 +58,6 @@ def templatematch(snapshot,features):
             cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
             #cv2.putText(img_rgb, data['name'] ,(pt[0] + round(w/2) ,pt[1] - 20 ) , cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), lineType=2)
           #  cv2.putText(img_rgb,data['name'], (pt[0],pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
-            if not os.path.exists('results'):
-              os.makedirs('results')
             
             cv2.imwrite('results/'+snapshot.split('/')[1]+'.png',img_rgb)
 			
